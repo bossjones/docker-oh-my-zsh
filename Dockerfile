@@ -1,0 +1,202 @@
+#syntax=docker/dockerfile:1.3
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+# LABEL mantainer="Read the Docs <support@readthedocs.com>"
+# LABEL version="ubuntu-22.04-2022.03.15"
+
+# ENV DEBIAN_FRONTEND noninteractive
+ENV LANG C.UTF-8
+
+RUN apt update && apt install -y curl git gnupg zsh tar software-properties-common vim
+
+
+# Running this here so we can add tools quickly while relying on cache for layers above
+RUN apt update && apt install -yq fzf perl gettext direnv vim awscli
+COPY zshrc /root/.zshrc
+
+# SOURCE: https://github.com/readthedocs/readthedocs-docker-images/blob/main/Dockerfile
+# Install requirements
+RUN apt-get -y install \
+        build-essential \
+        bzr \
+        curl \
+        doxygen \
+        g++ \
+        git-core \
+        graphviz-dev \
+        libbz2-dev \
+        libcairo2-dev \
+        libenchant-2-2 \
+        libevent-dev \
+        libffi-dev \
+        libfreetype6 \
+        libfreetype6-dev \
+        libgraphviz-dev \
+        libjpeg8-dev \
+        libjpeg-dev \
+        liblcms2-dev \
+        libmysqlclient-dev \
+        libpq-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        libtiff5-dev \
+        libwebp-dev \
+        libxml2-dev \
+        libxslt1-dev \
+        libxslt-dev \
+        mercurial \
+        pandoc \
+        pkg-config \
+        postgresql-client \
+        subversion \
+        zlib1g-dev
+
+# LaTeX -- split to reduce image layer size
+RUN apt-get -y install \
+    texlive-fonts-extra
+RUN apt-get -y install \
+    texlive-lang-english
+RUN apt-get -y install \
+    texlive-full
+    
+# asdf Python extra requirements
+# https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+RUN apt-get install -y \
+    liblzma-dev \
+    libncursesw5-dev \
+    libssl-dev \
+    libxmlsec1-dev \
+    llvm \
+    make \
+    tk-dev \
+    wget \
+    xz-utils
+
+# asdf nodejs extra requirements
+# https://github.com/asdf-vm/asdf-nodejs#linux-debian
+RUN apt-get install -y \
+    dirmngr \
+    gpg
+
+# asdf Golang extra requirements
+# https://github.com/kennyp/asdf-golang#linux-debian
+RUN apt-get install -y \
+    coreutils
+###########################################################################################
+
+# ############################################################################################################################
+# # set the variables as per $(pyenv init -)
+# ENV LANG="C.UTF-8" \
+#     LC_ALL="C.UTF-8" \
+#     PATH="/opt/pyenv/shims:/opt/pyenv/bin:$PATH" \
+#     PYENV_ROOT="/opt/pyenv" \
+#     PYENV_SHELL="zsh"
+
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#         build-essential \
+#         ca-certificates \
+#         curl \
+#         git \
+#         libbz2-dev \
+#         libffi-dev \
+#         libncurses5-dev \
+#         libncursesw5-dev \
+#         libreadline-dev \
+#         libsqlite3-dev \
+#         libssl1.0-dev \
+#         liblzma-dev \
+#         # libssl-dev \
+#         llvm \
+#         make \
+#         netbase \
+#         pkg-config \
+#         tk-dev \
+#         wget \
+#         xz-utils \
+#         zlib1g-dev \
+# && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# COPY pyenv-version.txt python-versions.txt /
+
+# RUN git clone -b `cat /pyenv-version.txt` --single-branch --depth 1 https://github.com/pyenv/pyenv.git $PYENV_ROOT \
+#     && for version in `cat /python-versions.txt`; do pyenv install $version; done \
+#     && pyenv global `cat /python-versions.txt` \
+#     && find $PYENV_ROOT/versions -type d '(' -name '__pycache__' -o -name 'test' -o -name 'tests' ')' -exec rm -rf '{}' + \
+#     && find $PYENV_ROOT/versions -type f '(' -name '*.pyo' -o -name '*.exe' ')' -exec rm -f '{}' + \
+# && rm -rf /tmp/*
+
+# COPY requirements-setup.txt requirements-test.txt requirements-ci.txt /
+# RUN pip install -r /requirements-setup.txt \
+#     && pip install -r /requirements-test.txt \
+#     && pip install -r /requirements-ci.txt \
+#     && find $PYENV_ROOT/versions -type d '(' -name '__pycache__' -o -name 'test' -o -name 'tests' ')' -exec rm -rf '{}' + \
+#     && find $PYENV_ROOT/versions -type f '(' -name '*.pyo' -o -name '*.exe' ')' -exec rm -f '{}' + \
+# && rm -rf /tmp/*
+# ############################################################################################################################
+
+
+# RUN curl -sSL https://github.com/asdf-vm/asdf/archive/refs/tags/v0.10.2.tar.gz \
+# 		| tar -v -C /root/.asdf -xz
+
+# ############################################################################################################################
+# Install asdf
+# ############################################################################################################################
+RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --depth 1 --branch v0.10.2
+RUN echo ". /root/.asdf/asdf.sh" >> /root/.bashrc
+RUN echo ". /root/.asdf/completions/asdf.bash" >> /root/.bashrc
+
+# Activate asdf in current session
+ENV PATH /root/.asdf/shims:/root/.asdf/bin:$PATH
+
+# Install asdf plugins
+RUN asdf plugin add python
+RUN asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+RUN asdf plugin add rust https://github.com/code-lever/asdf-rust.git
+RUN asdf plugin add golang https://github.com/kennyp/asdf-golang.git
+
+# Create directories for languages installations
+RUN mkdir -p /root/.asdf/installs/python && \
+    mkdir -p /root/.asdf/installs/nodejs && \
+    mkdir -p /root/.asdf/installs/rust && \
+    mkdir -p /root/.asdf/installs/golang && \
+    mkdir -p /root/.asdf/installs/kubectl && \
+    mkdir -p /root/.asdf/installs/neovim && \
+    mkdir -p /root/.asdf/installs/k9s && \
+    mkdir -p /root/.asdf/installs/ag && \
+    mkdir -p /root/.asdf/installs/velero && \
+    mkdir -p /root/.asdf/installs/shfmt && \
+    mkdir -p /root/.asdf/installs/shellcheck && \
+    mkdir -p /root/.asdf/installs/mkcert && \
+    mkdir -p /root/.asdf/installs/github-cli && \
+    mkdir -p /root/.asdf/installs/kompose && \
+    mkdir -p /root/.asdf/installs/dive && \
+    mkdir -p /root/.asdf/installs/yq && \
+    mkdir -p /root/.asdf/installs/poetry && \
+    mkdir -p /root/.asdf/installs/vault && \
+    mkdir -p /root/.asdf/installs/terraform && \
+    mkdir -p /root/.asdf/installs/packer && \
+    mkdir -p /root/.asdf/installs/kubeval && \
+    mkdir -p /root/.asdf/installs/kubectx && \
+    mkdir -p /root/.asdf/installs/jsonnet && \
+    mkdir -p /root/.asdf/installs/helm && \
+    mkdir -p /root/.asdf/installs/tmux && \
+    mkdir -p /root/.asdf/installs/fd
+
+RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+ENTRYPOINT ["zsh"]
+
+# Ballerina runtime distribution filename.
+ARG BUILD_DATE
+ARG VCS_REF
+ARG BUILD_VERSION
+
+# Labels.
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.build-date=$BUILD_DATE
+LABEL org.label-schema.name="bossjones/docker-oh-my-zsh"
+LABEL org.label-schema.vcs-ref=$VCS_REF
+LABEL org.label-schema.vendor="TonyDark Industries"
+LABEL org.label-schema.version=$BUILD_VERSION
+LABEL maintainer="jarvis@theblacktonystark.com"
