@@ -228,7 +228,12 @@ COPY zshrc.sheldon /root/.zshrc
 # COPY zshrc /root/.zshrc
 COPY asdf.sh /install-asdf.sh
 
-RUN apt-get install unzip autotools-dev automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev silversearcher-ag ripgrep -y
+RUN apt-get install unzip autotools-dev automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev silversearcher-ag ripgrep locales -y
+
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf && \
+    locale-gen en_US.UTF-8
 
 RUN asdf install neovim 0.7.2 && \
     asdf global neovim 0.7.2 && \
@@ -242,6 +247,9 @@ RUN asdf install neovim 0.7.2 && \
     asdf global nodejs 16.16.0 && \
     asdf install shfmt 3.3.1 && \
     asdf global shfmt 3.3.1
+    
+# install rust
+# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # RUN pip install -U pip wheel setuptools
 # RUN  npm install -g neovim tree-sitter-cli
