@@ -208,6 +208,11 @@ RUN mkdir -p /root/.asdf/installs/python && \
     mkdir -p /root/.asdf/installs/fd
 
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
+RUN curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+    | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
+
+ENV PATH /root/bin:/root/.bin:/root/.local/bin:$PATH
 
 ENTRYPOINT ["zsh"]
 

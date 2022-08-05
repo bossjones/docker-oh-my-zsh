@@ -1,0 +1,89 @@
+# ➜  ~ cat  ~/.sheldon/plugins.toml
+# `sheldon` configuration file
+# ----------------------------
+#
+# You can modify this file directly or you can use one of the following
+# `sheldon` commands which are provided to assist in editing the config file:
+#
+# - `sheldon add` to add a new plugin to the config file
+# - `sheldon edit` to open up the config file in the default editor
+# - `sheldon remove` to remove a plugin from the config file
+#
+# See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+
+shell = "zsh"
+
+# SOURCE: https://github.com/vladucu/dotfiles/blob/696430a5ef75ce879c7fc3aa9fcda0c767ebedef/home/private_dot_config/sheldon/plugins.toml.tmpl
+[templates]
+defer = { value = 'zsh-defer source "{{ file }}"', each = true }
+# defer-more = { value = 'zsh-defer -t 0.5 source "{{ "{{ file }}" }}"', each = true }
+# ffpath = { value = 'fpath+="{{ "{{ dir }}/functions" }}" && autoload -U "{{ "{{ dir }}" }}"/functions/*(.:t)', each = true }
+
+[plugins]
+
+###################
+# Completions
+###################
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+###################
+# Sourced
+###################
+
+# Alternatives to check
+# starship/starship
+# denysdovhan/spaceship-prompt
+[plugins.pure]
+github = "sindresorhus/pure"
+use = ["{async,pure}.zsh"]
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+
+
+# SOURCE: https://github.com/vladucu/dotfiles/blob/696430a5ef75ce879c7fc3aa9fcda0c767ebedef/home/private_dot_config/sheldon/plugins.toml.tmpl
+
+###################
+# Deferred
+###################
+
+[plugins.oh-my-zsh]
+github = "ohmyzsh/ohmyzsh"
+
+[plugins.fancy-ctrl-z]
+github = "ohmyzsh/ohmyzsh"
+use = ["**/fancy-ctrl-z/*.plugin.zsh"]
+apply = ["defer"]
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+use = ["{{ name }}.zsh"]
+
+[plugins.asdf]
+local = "~/.asdf"
+use = ["asdf.sh"]
+apply = ["defer"]
+
+# ###################
+# # Deferred more
+# ###################
+# # Keep this after zsh-syntax-highlighting
+# # TODO setup keyboard shortcuts
+# # https://github.com/zsh-users/zsh-history-substring-search#usage
+# [plugins.zsh-history-substring-search]
+# github = 'zsh-users/zsh-history-substring-search'
+# use = ["zsh-history-substring-search.zsh"]
+# apply = ["defer-more"]
+
+# For example:
+#
+# [plugins.base16]
+# github = "chriskempson/base16-shell"
+
+

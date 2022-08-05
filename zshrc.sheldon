@@ -1,0 +1,147 @@
+# config.zsh
+# XDG configuration
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+
+# Makes path a unique array preventing duplicates
+typeset -U path
+typeset -U fpath
+
+# env.zsh
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export EDITOR=vim
+
+# path.zsh
+path+=($HOME/bin)
+path+=($HOME/.bin)
+path+=($HOME/.local/bin)
+path+=($HOME/.fnm)
+path+=(/usr/local/sbin)
+path+=(/usr/local/bin)
+path+=(/usr/sbin)
+path+=(/usr/bin)
+path+=(/sbin)
+path+=(/bin)
+
+# config.zsh
+# Keep 10,000,000 lines of history within the shell and save it to ~/.zsh_history:
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=10000000
+SAVEHIST=10000000
+
+# Use vi keybindings
+set -o vi
+bindkey -v
+
+# Docs https://zsh.sourceforge.io/Doc/Release/Options.html
+setopt NO_BEEP
+# Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_DUPS
+# Delete old recorded entry if new entry is a duplicate.
+setopt HIST_IGNORE_ALL_DUPS
+# Expire duplicate entries first when trimming history.
+setopt HIST_EXPIRE_DUPS_FIRST
+# Don't record an entry starting with a space.
+setopt HIST_IGNORE_SPACE
+# Remove superfluous blanks before recording entry.
+setopt HIST_REDUCE_BLANKS
+# Don't execute immediately upon history expansion.
+setopt HIST_VERIFY
+# Treat the '!' character specially during expansion.
+setopt BANG_HIST
+# Write the history file in the ":start:elapsed;command" format.
+setopt EXTENDED_HISTORY
+# Write to the history file immediately, not when the shell exits.
+setopt INC_APPEND_HISTORY
+# Share history between all sessions.
+setopt NO_SHARE_HISTORY
+# Do not display a line previously found.
+setopt HIST_FIND_NO_DUPS
+# Don't write duplicate entries in the history file.
+setopt HIST_SAVE_NO_DUPS
+
+# Move cursor to end of word if a full completion is inserted.
+setopt ALWAYS_TO_END
+# Case-insensitive globbing (used in pathname expansion)
+unsetopt CASE_GLOB
+# Don't beep on ambiguous completions.
+setopt NO_LIST_BEEP
+
+# Case-insesitive matching or partial word matching
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
+
+# TODO organize aliases
+# alias brew='sudo -Hu ops -i brew'
+# alias c=chezmoi
+alias e="$EDITOR"
+
+# export ZSH="$HOME/.oh-my-zsh"
+export ZSH="$HOME/.sheldon/repos/github.com/ohmyzsh/ohmyzsh"
+# export ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
+
+# plugins=(
+#     direnv
+#     git
+#     asdf
+#     fd
+#     colored-man-pages
+# )
+# # kubectl
+# # zsh-hooks/zsh-hooks
+
+# ZSH_THEME="crunch"
+
+# source $ZSH/oh-my-zsh.sh
+
+# bindkey "^R" history-incremental-search-backward
+
+# # export PATH="/root/.local/bin:$PATH"
+
+# Oh My Zsh settings here
+
+eval "$(sheldon source)"
+
+
+# # added 12/17/2020 ( not sure if its going to cause trouble )
+# # SOURCE: https://github.com/eddiezane/lunchy/issues/57
+# autoload -U +X bashcompinit && bashcompinit
+# autoload -U +X compinit && compinit
+
+# compinit.zsh
+# Load all stock functions (from $fpath files) called below.
+autoload -U compaudit compinit
+
+# Figure out the SHORT hostname
+if [[ "$OSTYPE" = darwin* ]]; then
+  # macOS's $HOST changes with dhcp, etc. Use ComputerName if possible.
+  SHORT_HOST=$(scutil --get ComputerName 2>/dev/null) || SHORT_HOST=${HOST/.*/}
+else
+  SHORT_HOST=${HOST/.*/}
+fi
+
+# Save the location of the current completion dump file.
+ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
+
+# Construct zcompdump metadata, we will rebuild the Zsh compdump if either
+# this file changes or the fpath changes.
+zcompdump_revision="#revision: $(sha1sum $0:A)"
+zcompdump_fpath="#fpath: $fpath"
+
+# Delete the zcompdump file if zcompdump metadata changed
+if ! command grep -q -Fx "$zcompdump_revision" "$ZSH_COMPDUMP" 2>/dev/null \
+   || ! command grep -q -Fx "$zcompdump_fpath" "$ZSH_COMPDUMP" 2>/dev/null; then
+  command rm -f "$ZSH_COMPDUMP"
+  zcompdump_refresh=1
+fi
+
+# If the user wants it, load from all found directories
+compinit -u -C -d "${ZSH_COMPDUMP}"
+
+# Append zcompdump metadata if missing
+if (( $zcompdump_refresh )); then
+  echo "\n$zcompdump_revision\n$zcompdump_fpath" >>! "$ZSH_COMPDUMP"
+fi
+
+unset zcompdump_revision zcompdump_fpath zcompdump_refresh
