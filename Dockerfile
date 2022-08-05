@@ -218,6 +218,9 @@ ENV PATH /root/bin:/root/.bin:/root/.local/bin:$PATH
 
 COPY plugins.toml /root/.sheldon/plugins.toml
 RUN sheldon lock
+# COPY zshrc.sheldon /root/.zshrc
+COPY zshrc /root/.zshrc
+COPY asdf.sh /install-asdf.sh
 
 ENTRYPOINT ["zsh"]
 
