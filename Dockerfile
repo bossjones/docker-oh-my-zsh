@@ -254,9 +254,12 @@ RUN asdf install neovim 0.7.2 && \
 # RUN pip install -U pip wheel setuptools
 # RUN  npm install -g neovim tree-sitter-cli
 
+# RUN apt-get install python3-pip python3-dev npm rust-all -y
+
+
 # RUN bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 # RUN curl --proto '=https' -fLsS https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh \
-#     | bash -s -- 
+#     | bash -s -- -y
 
 ENTRYPOINT ["/usr/bin/zsh"]
 
