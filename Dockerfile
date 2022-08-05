@@ -228,12 +228,10 @@ RUN sheldon lock
 COPY zshrc /root/.zshrc
 COPY asdf.sh /install-asdf.sh
 
-RUN apt-get install unzip autotools-dev automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev -y
+RUN apt-get install unzip autotools-dev automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev silversearcher-ag -y
 
 RUN asdf install neovim 0.7.2 && \
     asdf global neovim 0.7.2 && \
-    asdf install ag 2.2.0 && \
-    asdf global ag 2.2.0 && \
     asdf install aria2 1.36.0 && \
     asdf global aria2 1.36.0 && \
     asdf install github-cli 2.0.0 && \
