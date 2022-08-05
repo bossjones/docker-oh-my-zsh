@@ -210,9 +210,14 @@ RUN mkdir -p /root/.asdf/installs/python && \
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
 RUN curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
-    | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
+    | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin && \
+    ~/.local/bin/sheldon init --shell zsh
+
 
 ENV PATH /root/bin:/root/.bin:/root/.local/bin:$PATH
+
+COPY plugins.toml /root/.sheldon/plugins.toml
+RUN sheldon lock
 
 ENTRYPOINT ["zsh"]
 

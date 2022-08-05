@@ -65,6 +65,10 @@ apply = ["defer"]
 github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
 
+[plugins.zsh-hooks]
+github = "zsh-hooks/zsh-hooks"
+use = ["{{ name }}.plugin.zsh"]
+
 [plugins.asdf]
 local = "~/.asdf"
 use = ["asdf.sh"]
