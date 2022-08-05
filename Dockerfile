@@ -228,7 +228,7 @@ RUN sheldon lock
 COPY zshrc /root/.zshrc
 COPY asdf.sh /install-asdf.sh
 
-RUN apt-get install unzip -y
+RUN apt-get install unzip autotools-dev automake -y
 
 RUN asdf install neovim 0.7.2 && \
     asdf global neovim 0.7.2 && \
