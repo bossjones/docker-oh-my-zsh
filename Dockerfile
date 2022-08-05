@@ -217,11 +217,18 @@ RUN curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh
 
 ENV PATH /root/bin:/root/.bin:/root/.local/bin:$PATH
 
+RUN asdf install python 3.9.13 && \
+    asdf global python 3.9.13 && \
+    asdf install golang 1.16.15 && \
+    asdf global golang 1.16.15
+
 COPY plugins.toml /root/.sheldon/plugins.toml
 RUN sheldon lock
 # COPY zshrc.sheldon /root/.zshrc
 COPY zshrc /root/.zshrc
 COPY asdf.sh /install-asdf.sh
+
+RUN apt-get install unzip -y
 
 ENTRYPOINT ["zsh"]
 

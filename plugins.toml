@@ -57,6 +57,11 @@ github = "ohmyzsh/ohmyzsh"
 use = ["**/fancy-ctrl-z/*.plugin.zsh"]
 apply = ["defer"]
 
+# [plugins.golang]
+# github = "ohmyzsh/ohmyzsh"
+# use = ["**/golang/*.plugin.zsh"]
+# apply = ["defer"]
+
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
 apply = ["defer"]
