@@ -13,7 +13,6 @@ RUN apt update && apt install -y curl git gnupg zsh tar software-properties-comm
 
 # Running this here so we can add tools quickly while relying on cache for layers above
 RUN apt update && apt install -yq fzf perl gettext direnv vim awscli
-COPY zshrc /root/.zshrc
 
 # SOURCE: https://github.com/readthedocs/readthedocs-docker-images/blob/main/Dockerfile
 # Install requirements
