@@ -24,8 +24,8 @@ asdf global kubectx 0.9.4
 asdf install kubeval 0.16.1
 asdf global kubeval 0.16.1
 
-asdf install neovim 0.6.0
-asdf global neovim 0.6.0
+asdf install neovim latest
+asdf global neovim latest
 
 asdf install packer 1.7.4
 asdf global packer 1.7.4
