@@ -154,6 +154,30 @@ RUN asdf plugin add python
 RUN asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 RUN asdf plugin add rust https://github.com/code-lever/asdf-rust.git
 RUN asdf plugin add golang https://github.com/kennyp/asdf-golang.git
+RUN asdf plugin-add hadolint https://github.com/looztra/asdf-hadolint
+RUN asdf plugin add fd
+RUN asdf plugin-add tmux https://github.com/aphecetche/asdf-tmux.git
+RUN asdf plugin-add helm https://github.com/Antiarchitect/asdf-helm.git
+RUN asdf plugin-add jsonnet https://github.com/Banno/asdf-jsonnet.git
+RUN asdf plugin-add k9s https://github.com/looztra/asdf-k9s
+RUN asdf plugin-add kubectl https://github.com/Banno/asdf-kubectl.git
+RUN asdf plugin add kubectx
+RUN asdf plugin-add neovim 
+RUN asdf plugin-add packer https://github.com/Banno/asdf-hashicorp.git 
+RUN asdf plugin-add terraform https://github.com/Banno/asdf-hashicorp.git 
+RUN asdf plugin-add vault https://github.com/Banno/asdf-hashicorp.git 
+RUN asdf plugin-add poetry https://github.com/crflynn/asdf-poetry.git 
+RUN asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git 
+RUN asdf plugin add ag https://github.com/koketani/asdf-ag.git
+RUN asdf plugin-add aria2 https://github.com/asdf-community/asdf-aria2.git
+RUN asdf plugin-add argo https://github.com/sudermanjr/asdf-argo.git
+RUN asdf plugin-add dive https://github.com/looztra/asdf-dive
+RUN asdf plugin-add github-cli https://github.com/bartlomiejdanek/asdf-github-cli.git
+RUN asdf plugin add kompose
+RUN asdf plugin add mkcert
+RUN asdf plugin-add shellcheck
+RUN asdf plugin-add shfmt
+RUN asdf plugin-add velero https://github.com/looztra/asdf-velero
 
 # Create directories for languages installations
 RUN mkdir -p /root/.asdf/installs/python && \
