@@ -230,6 +230,21 @@ COPY asdf.sh /install-asdf.sh
 
 RUN apt-get install unzip -y
 
+RUN asdf install neovim 0.7.2 && \
+    asdf global neovim 0.7.2 && \
+    asdf install ag 2.2.0 && \
+    asdf global ag 2.2.0 && \
+    asdf install aria2 1.36.0 && \
+    asdf global aria2 1.36.0 && \
+    asdf install github-cli 2.0.0 && \
+    asdf global github-cli 2.0.0 && \
+    asdf install shellcheck 0.8.0 && \
+    asdf global shellcheck 0.8.0 && \
+    asdf install shfmt 3.3.1 && \
+    asdf global shfmt 3.3.1
+
+# RUN bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+
 ENTRYPOINT ["zsh"]
 
 # Ballerina runtime distribution filename.
