@@ -108,7 +108,7 @@ apply = ["defer-more"]
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 use = ["fast-syntax-highlighting.plugin.zsh"]
-tag = "master"
+# tag = "master"
 apply = ["defer-more"]
 
 [plugins.zsh-dircolors-solarized]
