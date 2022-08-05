@@ -45,6 +45,9 @@ push:
 	docker push $(username)/$(container_name):$(GIT_SHA)
 	docker push $(username)/$(container_name):$(TAG)
 
+pull:
+	docker pull $(username)/$(container_name):latest
+	
 push-force: build-force push
 
 zsh:
