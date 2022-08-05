@@ -52,13 +52,13 @@ RUN apt-get -y install \
         subversion \
         zlib1g-dev
 
-# LaTeX -- split to reduce image layer size
-RUN apt-get -y install \
-    texlive-fonts-extra
-RUN apt-get -y install \
-    texlive-lang-english
-RUN apt-get -y install \
-    texlive-full
+# # LaTeX -- split to reduce image layer size
+# RUN apt-get -y install \
+#     texlive-fonts-extra
+# RUN apt-get -y install \
+#     texlive-lang-english
+# RUN apt-get -y install \
+#     texlive-full
     
 # asdf Python extra requirements
 # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
