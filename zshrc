@@ -22,7 +22,7 @@ bindkey "^R" history-incremental-search-backward
 path+=($HOME/bin)
 path+=($HOME/.bin)
 path+=($HOME/.local/bin)
-path+=($HOME/.fnm)
+# path+=($HOME/.fnm)
 path+=(/usr/local/sbin)
 path+=(/usr/local/bin)
 path+=(/usr/sbin)
