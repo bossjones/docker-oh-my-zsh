@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+shift 2
+sha256sum $@
