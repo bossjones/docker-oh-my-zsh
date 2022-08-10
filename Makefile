@@ -12,10 +12,16 @@ ifeq ($(TAG),@branch)
 	@echo $(value TAG)
 endif
 
+buildx:
+	docker buildx build --build-arg VCS_REF=$(GIT_SHA) --build-arg BUILD_DATE=$(VERSION) --build-arg BUILD_DATE=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ') --tag "$(username)/$(container_name):$(GIT_SHA)" --platform="linux/amd64,linux/arm64" --push .
+	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):latest
+	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):$(TAG)
+
 build:
 	docker build --build-arg VCS_REF=$(GIT_SHA) --build-arg BUILD_DATE=$(VERSION) --build-arg BUILD_DATE=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ') --tag $(username)/$(container_name):$(GIT_SHA) . ; \
 	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):latest
 	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):$(TAG)
+
 
 build-force:
 	docker build --rm --force-rm --pull --no-cache -t $(username)/$(container_name):$(GIT_SHA) . ; \

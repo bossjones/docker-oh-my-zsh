@@ -153,61 +153,45 @@ RUN asdf plugin add python
 RUN asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 RUN asdf plugin add rust https://github.com/code-lever/asdf-rust.git
 RUN asdf plugin add golang https://github.com/kennyp/asdf-golang.git
-RUN asdf plugin-add hadolint https://github.com/looztra/asdf-hadolint
-RUN asdf plugin add fd
+# RUN asdf plugin-add hadolint https://github.com/looztra/asdf-hadolint
+# RUN asdf plugin add fd
 RUN asdf plugin-add tmux https://github.com/aphecetche/asdf-tmux.git
-RUN asdf plugin-add helm https://github.com/Antiarchitect/asdf-helm.git
-RUN asdf plugin-add jsonnet https://github.com/Banno/asdf-jsonnet.git
-RUN asdf plugin-add k9s https://github.com/looztra/asdf-k9s
-RUN asdf plugin-add kubectl https://github.com/Banno/asdf-kubectl.git
-RUN asdf plugin add kubectx
+# RUN asdf plugin-add helm https://github.com/Antiarchitect/asdf-helm.git
+# RUN asdf plugin-add jsonnet https://github.com/Banno/asdf-jsonnet.git
+# RUN asdf plugin-add k9s https://github.com/looztra/asdf-k9s
+# RUN asdf plugin-add kubectl https://github.com/Banno/asdf-kubectl.git
+# RUN asdf plugin add kubectx
 RUN asdf plugin-add neovim 
-RUN asdf plugin-add packer https://github.com/Banno/asdf-hashicorp.git 
-RUN asdf plugin-add terraform https://github.com/Banno/asdf-hashicorp.git 
-RUN asdf plugin-add vault https://github.com/Banno/asdf-hashicorp.git 
-RUN asdf plugin-add poetry https://github.com/crflynn/asdf-poetry.git 
-RUN asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git 
-RUN asdf plugin add ag https://github.com/koketani/asdf-ag.git
+# RUN asdf plugin-add packer https://github.com/Banno/asdf-hashicorp.git 
+# RUN asdf plugin-add terraform https://github.com/Banno/asdf-hashicorp.git 
+# RUN asdf plugin-add vault https://github.com/Banno/asdf-hashicorp.git 
+# RUN asdf plugin-add poetry https://github.com/crflynn/asdf-poetry.git 
+# RUN asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git 
+# RUN asdf plugin add ag https://github.com/koketani/asdf-ag.git
 RUN asdf plugin-add aria2 https://github.com/asdf-community/asdf-aria2.git
-RUN asdf plugin-add argo https://github.com/sudermanjr/asdf-argo.git
-RUN asdf plugin-add dive https://github.com/looztra/asdf-dive
+# RUN asdf plugin-add argo https://github.com/sudermanjr/asdf-argo.git
+# RUN asdf plugin-add dive https://github.com/looztra/asdf-dive
 RUN asdf plugin-add github-cli https://github.com/bartlomiejdanek/asdf-github-cli.git
-RUN asdf plugin add kompose
+# RUN asdf plugin add kompose
 RUN asdf plugin add mkcert
 RUN asdf plugin-add shellcheck
 RUN asdf plugin-add shfmt
-RUN asdf plugin-add velero https://github.com/looztra/asdf-velero
+# RUN asdf plugin-add velero https://github.com/looztra/asdf-velero
 
 # Create directories for languages installations
 RUN mkdir -p /root/.asdf/installs/python && \
     mkdir -p /root/.asdf/installs/nodejs && \
     mkdir -p /root/.asdf/installs/rust && \
     mkdir -p /root/.asdf/installs/golang && \
-    mkdir -p /root/.asdf/installs/kubectl && \
     mkdir -p /root/.asdf/installs/neovim && \
-    mkdir -p /root/.asdf/installs/k9s && \
-    mkdir -p /root/.asdf/installs/ag && \
-    mkdir -p /root/.asdf/installs/velero && \
     mkdir -p /root/.asdf/installs/shfmt && \
     mkdir -p /root/.asdf/installs/shellcheck && \
     mkdir -p /root/.asdf/installs/mkcert && \
     mkdir -p /root/.asdf/installs/github-cli && \
-    mkdir -p /root/.asdf/installs/kompose && \
-    mkdir -p /root/.asdf/installs/dive && \
     mkdir -p /root/.asdf/installs/yq && \
-    mkdir -p /root/.asdf/installs/poetry && \
-    mkdir -p /root/.asdf/installs/vault && \
-    mkdir -p /root/.asdf/installs/terraform && \
-    mkdir -p /root/.asdf/installs/packer && \
-    mkdir -p /root/.asdf/installs/kubeval && \
-    mkdir -p /root/.asdf/installs/kubectx && \
-    mkdir -p /root/.asdf/installs/jsonnet && \
-    mkdir -p /root/.asdf/installs/helm && \
-    mkdir -p /root/.asdf/installs/tmux && \
-    mkdir -p /root/.asdf/installs/fd
-
+    mkdir -p /root/.asdf/installs/tmux
+    
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
 RUN curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
     | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
     
